@@ -11,8 +11,26 @@
  * Keep the admin access code in the Settings sheet; do not put it in config.js.
  */
 const SPREADSHEET_ID = "1D4NHi_ccYJf-687GO0NiN3iR2R8T2NQ-nIYwSZf0heA";
+const SHEET_SCHEMAS = {
+  Students: ["Participant ID", "Name", "Class", "Year", "Registered At", "Score", "Current Round", "Completed Rounds", "Completed Questions", "Time Taken (seconds)", "Round Started At", "Round Started Number", "Status"],
+  Questions: ["Question ID", "Year", "Round", "Category", "Question / Clue", "Answer", "Difficulty", "Game Type", "Points", "Active", "Jumble"],
+  Answers: ["Student ID", "Round", "Question ID", "Answer", "Correct", "Points", "Updated At"],
+  Leaderboard: ["Rank", "Name", "Class", "Year", "Score", "Current Round", "Status", "Time Taken (seconds)"],
+  Rounds: ["Year", "Round", "Competition", "Difficulty", "Game Type", "Questions", "Duration (minutes)", "Pass Mark", "Status"],
+  Settings: ["Setting", "Value"]
+};
+const DEFAULT_SETTINGS = [
+  ["eventName", "Bioinformatics Event 2026"],
+  ["eventLive", true],
+  ["durationMinutes", 10],
+  ["passingScore", 60],
+  ["maxQuestionsPerRound", 10],
+  ["registrationOpen", true],
+  ["adminAccessCode", "CHANGE-ME-2026"]
+];
 
 function doGet(e) {
+  bootstrapSpreadsheet_();
   const action = String(e.parameter.action || "health").toLowerCase();
   try {
     if (action === "health") return json_({
@@ -31,6 +49,7 @@ function doGet(e) {
 }
 
 function doPost(e) {
+  bootstrapSpreadsheet_();
   const payload = e.parameter || {};
   const action = String(payload.action || "").toLowerCase();
   try {
@@ -264,9 +283,44 @@ function status_(studentId) {
 
 function sheet_(name) {
   const book = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActive();
-  const sheet = book.getSheetByName(name);
-  if (!sheet) throw new Error("Sheet not found: " + name);
+  let sheet = book.getSheetByName(name);
+  if (!sheet) {
+    sheet = book.insertSheet(name);
+  }
+  ensureHeaders_(sheet, SHEET_SCHEMAS[name] || []);
   return sheet;
+}
+
+function bootstrapSpreadsheet_() {
+  const book = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActive();
+  const sheets = book.getSheets();
+  const namedSheets = new Set(sheets.map(sheet => sheet.getName()));
+  if (sheets.length === 1 && sheets[0].getName() === "Sheet1" && sheets[0].getLastRow() === 0 && !namedSheets.has("Students")) {
+    sheets[0].setName("Students");
+    namedSheets.delete("Sheet1");
+    namedSheets.add("Students");
+  }
+  Object.entries(SHEET_SCHEMAS).forEach(([name, headers]) => {
+    let sheet = book.getSheetByName(name);
+    if (!sheet) sheet = book.insertSheet(name);
+    ensureHeaders_(sheet, headers);
+    if (name === "Settings") ensureDefaultSettings_(sheet);
+  });
+}
+
+function ensureHeaders_(sheet, headers) {
+  if (!headers.length) return;
+  if (!sheet.getLastRow()) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.setFrozenRows(1);
+  }
+}
+
+function ensureDefaultSettings_(sheet) {
+  const values = sheet.getDataRange().getValues();
+  const rows = values.slice(1).filter(row => row.some(value => value !== ""));
+  if (rows.length) return;
+  sheet.getRange(2, 1, DEFAULT_SETTINGS.length, 2).setValues(DEFAULT_SETTINGS);
 }
 
 function asBool_(value) { return value === true || String(value).toLowerCase() === "true"; }
