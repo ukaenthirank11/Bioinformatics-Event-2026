@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#d81325" />
+    <meta name="description" content="Bioinformatics Event 2026 competition portal" />
+    <title>Bioinformatics Event 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#dashboard" aria-label="Bioinformatics Event home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Bioinformatics <b>Event</b><em>2026 COMPETITION</em></span></a>
+        <div class="event-mini"><span class="mini-dna" aria-hidden="true">⌁</span><div><small>ACTIVE EVENT</small><strong>Decode. Discover.<br />Compete.</strong></div></div>
+        <nav class="side-nav">
+          <button class="nav-link active" data-view="dashboard"><span>⌂</span> Dashboard</button>
+          <button class="nav-link" data-view="game"><span>⌗</span> Play round</button>
+          <button class="nav-link" data-view="leaderboard"><span>♜</span> Leaderboard</button>
+          <button class="nav-link" data-view="rules"><span>▤</span> Rules</button>
+          <button class="nav-link" data-view="profile"><span>◉</span> Profile</button>
+          <button class="nav-link admin-nav" data-view="admin"><span>⚙</span> Admin desk</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <button class="support-btn" data-view="rules"><span>?</span> Need help?</button>
+          <button class="account-card" id="openRegistration"><span class="avatar" data-initial>G</span><span><b data-student-name>Guest participant</b><small data-student-year>Register to play</small></span><span>›</span></button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+          <div class="crumb"><span>Bioinformatics Event 2026</span><strong id="pageTitle">Dashboard</strong></div>
+          <div class="top-actions"><span class="live-pill"><i></i> <span id="eventStatus">Event is live</span></span><button class="icon-button" aria-label="Notifications">♧<i class="notification-dot"></i></button></div>
+        </header>
+
+        <section class="view active" id="dashboard">
+          <div class="welcome-row"><div><p class="eyebrow">WELCOME TO THE CHALLENGE</p><h1>Good morning, <span data-student-first>Scientist</span> <span class="wave">👋</span></h1><p class="muted" id="welcomeMessage">Register once, then your competition is selected automatically.</p></div><button class="outline-button" id="registerShortcut">Join the event <span>→</span></button></div>
+          <section class="hero-card"><div class="hero-copy"><span class="tag"><span>✦</span> YOUR COMPETITION</span><h2 id="competitionName">Bioinformatics Crossword</h2><p id="competitionBlurb">Solve 19 crossword clues, one point per word, just like the reference puzzle.</p><button class="primary-button" id="startRound">Start Round 1 <span>→</span></button></div><div class="hero-art" aria-hidden="true"><div class="dna dna-a"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="dna dna-b"><i></i><i></i><i></i><i></i><i></i></div><div class="trophy">♛</div><span class="orb orb-one"></span><span class="orb orb-two"></span></div></section>
+          <div class="section-title"><div><h2>Your journey</h2><p>Pass each round to unlock the next one.</p></div><span class="progress-copy"><b id="journeyProgress">0%</b> complete</span></div>
+          <section class="rounds-grid" id="roundCards" aria-label="Competition rounds"></section>
+          <section class="dashboard-bottom">
+            <article class="next-card"><div class="next-icon">⌗</div><div><p class="eyebrow">UP NEXT</p><h3 id="nextRoundLabel">Round 1: <span id="difficultyLabel">Easy</span></h3><p id="gamePrompt">Register to unlock your first challenge.</p></div><button class="round-arrow" id="nextRoundButton" aria-label="Play the next round">→</button></article>
+            <article class="rank-card"><div><p class="eyebrow">YOUR CURRENT RANK</p><h3>#<span id="rankValue">—</span> <small id="rankCount">of your year</small></h3><p id="rankSummary"><span class="rank-up">↑</span> Rankings update as rounds are submitted.</p></div><div class="rank-medal">✦</div></article>
+          </section>
+        </section>
+
+        <section class="view" id="game">
+          <div class="game-header"><button class="back-link" data-view="dashboard">← Dashboard</button><div><span class="tag" id="gameRoundTag">ROUND 1 · EASY</span><h1 id="gameTitle">Bioinformatics Crossword</h1></div><div class="game-stats"><span>◷ <b id="timer">10:00</b></span><span>✦ Score <b id="gameScore">0</b></span></div></div>
+          <div class="game-layout">
+            <article class="game-board">
+              <div class="question-meta"><span id="questionCount">Question 1 of 19</span><div class="question-progress"><i id="questionProgress"></i></div></div>
+              <div class="crossword-preview" id="crosswordGrid" aria-label="Crossword letter grid"></div>
+              <div class="crossword-clue-list" id="crosswordClues" aria-label="Crossword clues"></div>
+              <div class="jumble-preview" id="jumbleBoard" aria-label="Jumbled letters"><p class="eyebrow">UNSCRAMBLE THE TERM</p><div id="jumbleLetters"></div><p id="jumbleHint"></p></div>
+              <div class="clue-card" id="currentClueCard"><p class="eyebrow">CURRENT CLUE</p><h2 id="questionClue">Register to see your first clue.</h2><p id="questionCategory">Across · Molecular biology</p><div class="answer-row"><input id="answerInput" autocomplete="off" autocapitalize="characters" placeholder="Type your answer" aria-label="Your answer" /><button class="primary-button" id="submitAnswer">Check answer</button></div><p class="answer-feedback" id="answerFeedback" aria-live="polite"></p></div>
+              <div class="game-nav"><button class="outline-button" id="previousQuestion">← Previous</button><button class="primary-button" id="nextQuestion">Next question →</button></div>
+              <button class="finish-round" id="finishRound">Submit Round <span>→</span></button>
+            </article>
+            <aside class="round-panel"><p class="eyebrow" id="roundPanelNumber">ROUND 1</p><h3>Make each answer count.</h3><ul><li><span>⏱</span> <b id="roundDuration">10 minutes total</b></li><li><span>✦</span> <b id="roundPoints">1 point per answer</b></li><li><span>▣</span> Saved as you play</li></ul><div class="round-panel-note"><b>Passing score</b><p id="passingScoreNote">Solve enough clues to unlock the next round.</p></div></aside>
+          </div>
+        </section>
+
+        <section class="view" id="leaderboard">
+          <div class="section-heading"><div><p class="eyebrow" id="leaderboardYear">YOUR YEAR</p><h1>Leaderboard</h1><p class="muted" id="leaderboardCopy">Rankings are separated by academic year.</p></div><button class="outline-button" id="refreshLeaderboard">↻ Refresh</button></div>
+          <div class="leaderboard-hero" id="leaderboardPodium"></div>
+          <div class="table-card"><div class="table-head"><span>Rank</span><span>Participant</span><span>Class</span><span>Score</span></div><div id="leaderboardRows"></div></div>
+        </section>
+
+        <section class="view" id="rules">
+          <div class="section-heading"><div><p class="eyebrow">PLAY FAIR. PLAY SMART.</p><h1>Competition rules</h1><p class="muted">Everything you need for a confident start.</p></div></div>
+          <div class="rules-grid"><article><span>01</span><h3>One registration</h3><p>Each participant can register once per academic year. Duplicate names are rejected by the sheet.</p></article><article><span>02</span><h3>Timed rounds</h3><p>Each round lasts 10 minutes. Your answers save as you play and are submitted when time runs out.</p></article><article><span>03</span><h3>Progressive play</h3><p>Earn at least 60 points in a round to unlock the next difficulty.</p></article><article><span>04</span><h3>Fair scoring</h3><p>One attempt per question is scored. Do not refresh, use multiple tabs, or share answers.</p></article></div>
+          <article class="rules-callout"><div><span>✦</span><h3>Ready to decode the language of life?</h3><p>Your course year automatically picks the right competition.</p></div><button class="primary-button" id="rulesStart">Join and play →</button></article>
+        </section>
+
+        <section class="view" id="profile">
+          <div class="section-heading"><div><p class="eyebrow">PARTICIPANT PROFILE</p><h1>My bio</h1><p class="muted">Your event identity and live progress.</p></div></div>
+          <div class="profile-grid"><article class="profile-card"><div class="profile-avatar" data-initial>G</div><h2 data-student-name>Guest participant</h2><p id="profileClass">Join the event to play</p><span class="profile-year" id="profileYear">Not registered</span><hr /><div class="profile-data"><span>Registered</span><b id="registeredDate">—</b><span>Competition</span><b id="profileCompetition">—</b><span>Current round</span><b id="profileRound">—</b><span>Total score</span><b id="profileScore">0 points</b></div><button class="text-button" id="changeParticipant">Change participant →</button></article><article class="profile-activity"><p class="eyebrow">ACTIVITY</p><h2>Keep the momentum.</h2><div class="activity-item"><span>⌗</span><div><b id="activityRound">Round 1 awaits</b><p id="activityText">Register to begin your journey.</p></div><em id="activityState">NEXT</em></div><div class="activity-item"><span>♜</span><div><b>Leaderboard updated</b><p>Compare your score with your academic year.</p></div><em>LIVE</em></div><button class="outline-button profile-result-btn" id="showResults">View results</button></article></div>
+        </section>
+
+        <section class="view" id="results">
+          <div class="section-heading"><div><p class="eyebrow">COMPETITION RESULT</p><h1>Progress report</h1><p class="muted">Your scores, qualification status, and next step.</p></div><button class="outline-button" data-view="leaderboard">View leaderboard</button></div>
+          <section class="results-summary"><article><span>TOTAL SCORE</span><b id="resultScore">0</b><small>points earned</small></article><article><span>ROUNDS COMPLETED</span><b id="resultRounds">0 / 3</b><small id="resultStatus">Round 1 is ready</small></article><article><span>YEAR RANK</span><b id="resultRank">—</b><small>updates in real time</small></article></section>
+          <div class="result-rounds" id="resultRoundsList"></div>
+          <article class="certificate-card"><div><p class="eyebrow">CERTIFICATE</p><h2 id="certificateTitle">Complete all three rounds to qualify.</h2><p id="certificateCopy">Your certificate becomes available after every round is completed.</p></div><button class="primary-button" id="certificateButton" disabled>Certificate locked</button></article>
+        </section>
+
+        <section class="view" id="admin">
+          <div class="section-heading"><div><p class="eyebrow">EVENT MANAGEMENT</p><h1>Admin desk</h1><p class="muted">Manage the spreadsheet-backed event without changing the participant experience.</p></div></div>
+          <div class="admin-lock" id="adminLock"><h2>Organizer access</h2><p>Use the event access code to unlock these controls. For a live deployment, keep the code only in the Apps Script project settings.</p><div class="answer-row"><input id="adminCode" type="password" placeholder="Event access code" aria-label="Event access code" /><button class="primary-button" id="unlockAdmin">Unlock desk</button></div><p class="answer-feedback" id="adminFeedback"></p></div>
+          <div class="admin-panel" id="adminPanel" hidden><section class="admin-metrics"><article><span>REGISTRATIONS</span><b id="adminRegistrations">0</b></article><article><span>ACTIVE PLAYERS</span><b id="adminActive">0</b></article><article><span>QUESTION BANK</span><b id="adminQuestions">79</b></article></section><section class="admin-actions"><button class="outline-button" data-admin-action="refresh">Refresh data</button><button class="outline-button" data-admin-action="open">Open next round</button><button class="outline-button" data-admin-action="export">Export registrations</button><button class="primary-button" data-admin-action="close">Pause event</button></section><p class="admin-note" id="adminNote">This demo desk updates locally. When the Sheet URL is configured, actions are sent to the Apps Script backend.</p></div>
+        </section>
+      </main>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="dashboard"><span>⌂</span>Home</button><button data-view="game"><span>⌗</span>Play</button><button data-view="leaderboard"><span>♜</span>Ranks</button><button data-view="profile"><span>◉</span>Profile</button></nav>
+    </div>
+
+    <dialog class="register-dialog" id="registrationDialog">
+      <form method="dialog" class="registration-card" id="registrationForm">
+        <button class="dialog-close" value="cancel" aria-label="Close registration">×</button>
+        <div class="registration-brand"><span class="brand-mark"><i></i><i></i><i></i></span><b>Bioinformatics Event <em>2026</em></b></div>
+        <p class="eyebrow">JOIN THE EVENT</p><h2>Your next discovery starts here.</h2><p class="muted">Provide your details once. Your year will select the right competition automatically.</p>
+        <label>Full name<input required id="fullName" name="fullName" placeholder="e.g. Ananya Sharma" maxlength="60" /></label>
+        <label>Class<select required id="studentClass" name="studentClass"><option value="">Select your course</option><option>B.Sc. Bioinformatics</option><option>B.Sc. Biotechnology</option><option>M.Sc. Bioinformatics</option><option>B.Sc. Microbiology</option></select></label>
+        <label>Academic year<select required id="studentYear" name="studentYear"><option value="">Select your year</option><option>First Year</option><option>Second Year</option><option>Third Year</option></select></label>
+        <p class="form-message" id="registrationMessage" aria-live="polite"></p>
+        <button class="primary-button full-button" id="registerButton" value="default">Continue to dashboard →</button><p class="privacy-note">⌑ One registration per participant and year.</p>
+      </form>
+    </dialog>
+    <script src="app-data.js"></script><script src="config.js"></script><script src="app.js"></script>
+  </body>
+</html>
